@@ -16,7 +16,7 @@
 
 # Date: 2020-03-13
 
-version: '3'
+version: '2.3'
 
 # These services run on the a single Computing Node running Linux & with Docker installed.
 services:
