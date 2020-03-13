@@ -45,7 +45,7 @@ services:
     # opendlv-vehicle-view on 111.
     vehicle-view:
         container_name: opendlv-vehicle-view
-        image: chalmersrevere/opendlv-vehicle-view-multi:v0.0.57
+        image: chalmersrevere/opendlv-vehicle-view-multi:v0.0.60
         cpuset: "1"
         restart: always
         network_mode: "host"
