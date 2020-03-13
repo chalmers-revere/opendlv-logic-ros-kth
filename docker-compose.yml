@@ -16,23 +16,22 @@
 
 # Date: 2020-03-13
 
-version: '2.3'
+version: '3'
 
 # These services run on the a single Computing Node running Linux & with Docker installed.
 services:
     # To run roscore in a docker container.
-    opendlv-roskinetic-roscore:
-        container_name: opendlv-roskinetic-roscore
+    master:
+        container_name: master
         image: osrf/ros:kinetic-desktop-full
         restart: always
         network_mode: "host"
         privileged: true
-        entrypoint: ""
-        command: "roscore"
+        command: roscore
     
      ###########################################################################   
-     # To run rosbridge microservice
-     opendlv-ros-bridge:
+    # To run rosbridge microservice
+    opendlv-ros-bridge:
         container_name: opendlv-ros-bridge
         image: chrberger/opendlv-ros-bridge:v0.0.1
         restart: always
@@ -43,7 +42,7 @@ services:
     
     ###########################################################################    
     # opendlv-vehicle-view on 111.
-    vehicle-view:
+    opendlv-vehicle-view:
         container_name: opendlv-vehicle-view
         image: chalmersrevere/opendlv-vehicle-view-multi:v0.0.60
         cpuset: "1"
