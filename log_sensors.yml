@@ -18,7 +18,7 @@
 
 version: '2.3'
 
-# These services run on the a Platform Computing Node which has communication with platform sensors & vehicle CAN.
+# These services run on the computing node communicating with the platform sensors & vehicle CAN.
 
 services:
 ######################################################################################
