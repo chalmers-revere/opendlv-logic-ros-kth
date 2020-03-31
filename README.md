@@ -24,7 +24,8 @@ YAML Files -
 ## Note
 * Please refer to [opendlv-ros](https://github.com/larsvens/opendlv-ros) for more information on ROS Node.
 * Please verify that the CID's (conference ID) stated in the YAML files are appropriate.
-* Please make sure the correct ODVD file is used to interpret the messages. Use [cluon-livefeed](https://github.com/chrberger/cluon-livefeed) to list messages in the OD4 Session.
+* Please make sure the correct ODVD file is used to interpret the messages. 
+* Use [cluon-livefeed](https://github.com/chrberger/cluon-livefeed) to list messages in the OD4 Session.
 
 ## License
 
