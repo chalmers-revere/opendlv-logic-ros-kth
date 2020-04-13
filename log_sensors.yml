@@ -27,16 +27,16 @@ services:
 #
 ######################################################################################
     # Relay and downsample Envelopes from CID 101 to CID 100 (for opendlv-vehicle-view).
-    relay-downsample-101-100:
-        container_name: relay-downsample-101-100
-        image: chrberger/cluon-relay-multi:v0.0.4
-        cpuset: "0"
-        restart: always
-        network_mode: "host"
-        cap_add:
-        - SYS_NICE
-        entrypoint: ""
-        command: "nice -n -7 /usr/bin/cluon-relay --cid-from=101 --cid-to=100 --downsample=19:10,49:1,51:1,191:5,195:1,196:5,197:5,198:5,199:5,200:1,203:5,204:5,205:5,206:5,1017:1,1030:1,1031:1,1033:1,1046:10,1051:1,1116:1,1118:1"
+#    relay-downsample-101-100:
+#        container_name: relay-downsample-101-100
+#        image: chrberger/cluon-relay-multi:v0.0.4
+#        cpuset: "0"
+#        restart: always
+#        network_mode: "host"
+#        cap_add:
+#        - SYS_NICE
+#        entrypoint: ""
+#        command: "nice -n -7 /usr/bin/cluon-relay --cid-from=101 --cid-to=100 --downsample=19:10,49:1,51:1,191:5,195:1,196:5,197:5,198:5,199:5,200:1,203:5,204:5,205:5,206:5,1017:1,1030:1,1031:1,1033:1,1046:10,1051:1,1116:1,1118:1"
 
     # Relay cluon.data.RecorderCommand.
     relay-recordercommand-actuationrequest-100-101:
@@ -75,7 +75,17 @@ services:
         - SYS_NICE
         entrypoint: ""
         command: "nice -n -5 /usr/bin/opendlv-device-gps-ncom --ncom_ip=0.0.0.0 --ncom_port=3000 --cid=101 --id=0"
-
+        
+    dev-cangps-oxts:
+        container_name: dev-cangps-oxts
+#        image: registry.git.chalmers.se/chalmers-revere/opendlv-device-cangps-oxts:v0.0.1
+        image: test:latest
+        cpuset: "1"
+        restart: always
+        network_mode: "host"
+        privileged: true
+        command: "--can=can2 --cid=101 --id=2"        
+     
     ###########################################################################
     # Axis camera including recording functionality with remote start/stop.
 #    dev-camera-axis0:
@@ -114,9 +124,8 @@ services:
     # if write privileges are needed add '--enablethrottle --enablebrake --enablesteering' to command line
     opendlv-gw-can-rhino:
         container_name: dlv-gw-can-rhino
-#        image: registry.git.chalmers.se/chalmers-revere/opendlv-gw-can-rhino:v1.0.1
-        image: test:latest
-        cpuset: "1"
+        image: registry.git.chalmers.se/chalmers-revere/opendlv-gw-can-rhino:v1.0.1
+        cpuset: "2"
         restart: always
         network_mode: "host"
         privileged: true
