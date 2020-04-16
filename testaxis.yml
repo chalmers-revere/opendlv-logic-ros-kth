@@ -1,0 +1,101 @@
+# Copyright (C) 2020 REVERE
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+# Date: 2020-03-30
+
+version: '2.3'
+
+# These services run on the computing node communicating with the platform sensors & vehicle CAN.
+
+services:
+######################################################################################
+#
+# Microservices for RHINO (Volvo FH16) with Vehicle View CID = 100.
+#
+######################################################################################
+
+    # Relay and downsample Envelopes from CID 101 to CID 100 (for opendlv-vehicle-view).
+#    relay-downsample-101-100:
+#        container_name: relay-downsample-101-100
+#        image: chrberger/cluon-relay-multi:v0.0.4
+#        cpuset: "0"
+#        restart: always
+#        network_mode: "host"
+#        cap_add:
+#        - SYS_NICE
+#        entrypoint: ""
+#        command: "nice -n -7 /usr/bin/cluon-relay --cid-from=101 --cid-to=100 --downsample=""
+
+    ###########################################################################
+    # Axis camera including recording functionality with remote start/stop.
+#    dev-camera-axis0:
+#        container_name: dev-camera-axis0
+#        image: chalmersrevere/opendlv-device-camera-rtp-amd64:v0.0.3
+#        cpuset: "5"
+#        restart: "always"
+#        network_mode: "host"
+#        volumes:
+#        -$HOME/recordings:/recordings
+#        cap_add:
+#        - SYS_NICE
+#        command: "nice -n -8 /usr/bin/opendlv-device-camera-rtp --url=rtsp://10.40.41.50/axis-media/media.amp?camera=1 --client-port-udp-a=35000 --remote --recsuffix=-all --cid=101 --id=3 "
+#        runtime: runc
+
+#    qsv-h264-thumbnail-axis-out:
+#        container_name: qsv-h264-thumbnail-axis-out
+#        image: chrberger/video-qsv-h264-encoder:v0.0.4
+#        depends_on:
+#        - dev-camera-axis0
+#        cpuset: "2"
+#        devices:
+#        - /dev/dri/renderD128
+#        restart: always
+#        network_mode: "host"
+#        ipc: "hosti"
+#        volumes:
+#        - /tmp:/tmp
+#        cap_add:
+#        - SYS_NICE
+#        entrypoint: ""
+#        command: "nice -n -7 /usr/bin/video-qsv-h264-encoder --name=axis-out.i420 --width=1280 --height=720 --bitrate=3000 --crop.x=320 --crop.y=120 --crop.width=640 --crop.height=480 --downsample=3 --cid=100 --id=3"
+
+    ############################################################################
+    # Web-application for viewing vehicle data.
+    vehicle-view:
+        container_name: opendlv-vehicle-view
+        image: chalmersrevere/opendlv-vehicle-view-multi:v0.0.60
+        cpuset: "0"
+        restart: always
+        network_mode: "host"
+        volumes:
+        - ~/recordings:/opt/vehicle-view/recordings
+        - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+        - OD4SESSION_CID=100
+        - PLAYBACK_OD4SESSION_CID=200
+        - OPENDLV_VEHICLE_VIEW_PLATFORM=Rhino
+        ports:
+        - "8081:8081"
+        cap_add:
+        - SYS_NICE
+        entrypoint: ""
+        command: "nice -n -15 node index.js"
+
+######################################################################################
+#
+# END
+#
+######################################################################################
