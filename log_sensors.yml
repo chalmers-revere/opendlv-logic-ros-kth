@@ -23,7 +23,7 @@ version: '2.3'
 services:
 ######################################################################################
 #
-# Microservices for RHINO (Volvo FH16), Vehicle View CID = 100.
+# Microservices for RHINO (Volvo FH16) with Vehicle View CID = 100.
 #
 ######################################################################################
     # Relay and downsample Envelopes from CID 101 to CID 100 (for opendlv-vehicle-view).
@@ -125,7 +125,7 @@ services:
 #        - /dev/dri/renderD128
 #        restart: always
 #        network_mode: "host"
-#        ipc: "host"
+#        ipc: "hosti"
 #        volumes:
 #        - /tmp:/tmp
 #        cap_add:
