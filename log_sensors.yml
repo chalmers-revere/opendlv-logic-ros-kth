@@ -64,23 +64,37 @@ services:
         command: "--cid=101 --remote --recsuffix=-all"
 
     ###########################################################################
-    # OxTS GPS (10.40.40.80)
-    dev-gps-ncom:
-        container_name: dev-gps-ncom
-        image: registry.git.chalmers.se/chalmers-revere/opendlv-device-gps-ncom:v1.0.10
-        cpuset: "1"
+    # Dump can2
+    record-can2:
+        container_name: record-can
+        image: candump:latest
         restart: always
         network_mode: "host"
-        cap_add:
-        - SYS_NICE
+        privileged: true
+        volumes:
+        - $HOME/recordings:/recordings
+        - $PWD/candumper.sh:/candumper.sh
+        working_dir: /recordings
         entrypoint: ""
-        command: "nice -n -5 /usr/bin/opendlv-device-gps-ncom --ncom_ip=0.0.0.0 --ncom_port=3000 --cid=101 --id=0"
+        command: "/candumper.sh can2"
+
+    ###########################################################################
+    # OxTS GPS (10.40.40.80)
+#    dev-gps-ncom:
+#        container_name: dev-gps-ncom
+#        image: registry.git.chalmers.se/chalmers-revere/opendlv-device-gps-ncom:v1.0.10
+#        cpuset: "1"
+#        restart: always
+#        network_mode: "host"
+#        cap_add:
+#        - SYS_NICE
+#        entrypoint: ""
+#        command: "nice -n -5 /usr/bin/opendlv-device-gps-ncom --ncom_ip=0.0.0.0 --ncom_port=3000 --cid=101 --id=0"
         
     dev-cangps-oxts:
         container_name: dev-cangps-oxts
-#        image: registry.git.chalmers.se/chalmers-revere/opendlv-device-cangps-oxts:v0.0.1
-        image: test:latest
-        cpuset: "1"
+        image: registry.git.chalmers.se/chalmers-revere/opendlv-device-cangps-oxts:v0.0.6
+        cpuset: "3"
         restart: always
         network_mode: "host"
         privileged: true
@@ -90,7 +104,7 @@ services:
     # Axis camera including recording functionality with remote start/stop.
 #    dev-camera-axis0:
 #        container_name: dev-camera-axis0
-#        image: chalmersrevere/opendlv-device-camera-rtp-amd64:v0.0.6
+#        image: chalmersrevere/opendlv-device-camera-rtp-amd64:v0.0.3
 #        cpuset: "5"
 #        restart: "always"
 #        network_mode: "host"
@@ -98,7 +112,7 @@ services:
 #        -$HOME/recordings:/recordings
 #        cap_add:
 #        - SYS_NICE
-#        command: "nice -n -8 /usr/bin/opendlv-device-camera-rtp --url=rtsp://10.40.45.50/axis-media/media.amp?camera=1 --client-port-udp-a=35000 --remote --recsuffix=-all --cid=101 --id=0 "
+#        command: "nice -n -8 /usr/bin/opendlv-device-camera-rtp --url=rtsp://10.40.41.50/axis-media/media.amp?camera=1 --client-port-udp-a=35000 --remote --recsuffix=-all --cid=101 --id=0 "
 #        runtime: runc
 
 #    qsv-h264-thumbnail-axis-out:
@@ -124,7 +138,7 @@ services:
     # if write privileges are needed add '--enablethrottle --enablebrake --enablesteering' to command line
     opendlv-gw-can-rhino:
         container_name: dlv-gw-can-rhino
-        image: registry.git.chalmers.se/chalmers-revere/opendlv-gw-can-rhino:v1.0.1
+        image: registry.git.chalmers.se/chalmers-revere/opendlv-gw-can-rhino:v1.0.2
         cpuset: "2"
         restart: always
         network_mode: "host"
