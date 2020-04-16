@@ -24,7 +24,7 @@ services:
      # To run rosbridge microservice
      opendlv-ros-bridge:
         container_name: opendlv-ros-bridge
-        image: chrberger/opendlv-ros-bridge:v0.0.3
+        image: chrberger/opendlv-ros-bridge:v0.0.6
         restart: always
         network_mode: "host"
         privileged: true
