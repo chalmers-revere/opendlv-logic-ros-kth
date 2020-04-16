@@ -1,0 +1,33 @@
+field in                  message   message type                	        source/destination      unit 
+ros message               ID
+
+"ActuationRequest, Senderstamp = 0"
+acceleration    -->      160       ActuationRequest							CAN						+ve = 0 < x < 100 -> acceleration pedal % , -ve = -4 m/s2 < x < 0 -> braking deceleration   ->  25 Hz (source can accept upto 100 Hz)
+steering        -->      160       ActuationRequest 						CAN						rad -3.2 < x < 3.2 (100 Hz)  -> 25 Hz  (source can accept upto 100 Hz)
+
+"SensorMsgCAN, Senderstamp = 1"
+yawrate          <--      197       VehicleState.yawrate    	 			CAN						rad/s (rhino.odvd)			-> 100 Hz ok
+vx               <--      1046      GroundSpeedReading.groundspeed 			CAN						m/s							-> 10 Hz ok
+ax               <--      197       VehicleState.accelerationX   			CAN						m/s^2 (rhino.odvd)			-> 100 Hz ok
+ay               <--      197       VehicleState.accelerationY   			CAN						m/s^2 (rhino.odvd)			-> 100 Hz ok
+delta_swa        <--      199       Steering.steeringwheelangle    			CAN						rad   (rhino.odvd)			-> 100 Hz ok
+load_axle_1      <--      195       Axles.loadAxle11               			CAN						kg    (rhino.odvd)			-> 4 Hz ok
+load_axle_2      <--      195       Axles.loadAxle12               			CAN						kg	  (rhino.odvd)			-> 4 Hz	ok
+load_axle_3      <--      195       Axles.loadAxle13               			CAN						kg    (rhino.odvd)			-> 4 Hz ok
+speed_wheel_111  <--      198       Wheels.speedWheel111           			CAN						km/h  (rhino.odvd) (Left) 	-> 50 Hz ok 
+speed_wheel_112  <--      198       Wheels.speedWheel112           			CAN						km/h  (rhino.odvd) (Right) 	-> 50 Hz ok
+speed_wheel_121  <--      198       Wheels.speedWheel121           			CAN						km/h  (rhino.odvd) (Left)	-> 50 Hz ok
+speed_wheel_122  <--      198       Wheels.speedWheel122           			CAN						km/h  (rhino.odvd) (Right)	-> 50 Hz ok
+speed_wheel_131  <--      198       Wheels.speedWheel131           			CAN						km/h  (rhino.odvd) (Left)	-> 100 Hz ok
+speed_wheel_132  <--      198       Wheels.speedWheel132           			CAN						km/h  (rhino.odvd) (Right)	-> 100 Hz ok
+
+"SensorMsgGPS, 25Hz, CAN, Senderstamp = 2"
+lat          <--          1116      Geolocation.latitude					gps						deg 
+long         <--          1116      Geolocation.longitude        			gps 					deg
+yawangle     <--          1116      Geolocation.heading          			gps						deg (0 to 360 deg)
+yawrate      <--          1017      Equilibrioception.yawrate    			gps						deg/s
+ax           <--          1030      AccelerationReading.accelerationX       gps						m/s2
+ay           <--          1030      AccelerationReading.acceleratonY		gps						m/s2
+altitude     <--          1116      Geolocation.altitude         			gps						m
+vx           <--          1017      Equilibrioception.vx         			gps						m/s			
+vy           <--          1017      Equilibrioception.vy      	 			gps 					m/s 
