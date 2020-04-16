@@ -43,7 +43,7 @@ services:
     # Axis camera including recording functionality with remote start/stop.
 #    dev-camera-axis0:
 #        container_name: dev-camera-axis0
-#        image: chalmersrevere/opendlv-device-camera-rtp-amd64:v0.0.3
+#        image: chalmersrevere/opendlv-device-camera-rtp-amd64:v0.0.6
 #        cpuset: "5"
 #        restart: "always"
 #        network_mode: "host"
