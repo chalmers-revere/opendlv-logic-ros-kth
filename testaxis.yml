@@ -47,11 +47,13 @@ services:
 #        cpuset: "5"
 #        restart: "always"
 #        network_mode: "host"
+#        ipc: "host"
+#        network_mode: "host"
 #        volumes:
 #        -$HOME/recordings:/recordings
 #        cap_add:
 #        - SYS_NICE
-#        command: "nice -n -8 /usr/bin/opendlv-device-camera-rtp --url=rtsp://10.40.41.50/axis-media/media.amp?camera=1 --client-port-udp-a=35000 --remote --recsuffix=-all --cid=101 --id=3 "
+#        command: "nice -n -8 /usr/bin/opendlv-device-camera-rtp --url=rtsp://10.40.41.50/axis-media/media.amp?camera=1 --client-port-udp-a=35000 --remote --recsuffix=-all --cid=100 --id=3 --name=axis."
 #        runtime: runc
 
 #    qsv-h264-thumbnail-axis-out:
@@ -64,13 +66,13 @@ services:
 #        - /dev/dri/renderD128
 #        restart: always
 #        network_mode: "host"
-#        ipc: "hosti"
+#        ipc: "host"
 #        volumes:
 #        - /tmp:/tmp
 #        cap_add:
 #        - SYS_NICE
 #        entrypoint: ""
-#        command: "nice -n -7 /usr/bin/video-qsv-h264-encoder --name=axis-out.i420 --width=1280 --height=720 --bitrate=3000 --crop.x=320 --crop.y=120 --crop.width=640 --crop.height=480 --downsample=3 --cid=100 --id=3"
+#        command: "nice -n -7 /usr/bin/video-qsv-h264-encoder --name=axis.i420 --width=1280 --height=720 --bitrate=3000 --crop.x=320 --crop.y=120 --crop.width=640 --crop.height=480 --downsample=3 --cid=100 --id=3"
 
     ############################################################################
     # Web-application for viewing vehicle data.
