@@ -78,6 +78,23 @@ services:
         entrypoint: ""
         command: "/candumper.sh can2"
 
+# Raw packet dump for OxTS
+    tcpdump-oxts:
+        container_name: tcpdump-oxts
+        image: tcpdump:latest
+        cpuset: "0"
+        restart: always
+        network_mode: "host"
+        volumes:
+        - $HOME/recordings:/recordings
+        working_dir: /recordings
+        cap_add:
+        - SYS_NICE
+        entrypoint: ""
+        command: sh -c "nice -n -10 tcpdump -i enp2s0 udp port 3000 -w `date +%Y-%m-%d_%H%M%S-oxts.pcap`"
+        runtime: runc
+
+
     ###########################################################################
     # OxTS GPS (10.40.40.80)
 #    dev-gps-ncom:
