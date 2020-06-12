@@ -65,34 +65,34 @@ services:
 
     ###########################################################################
     # Dump can2
-    record-can2:
-        container_name: record-can
-        image: candump:latest
-        restart: always
-        network_mode: "host"
-        privileged: true
-        volumes:
-        - $HOME/recordings:/recordings
-        - $PWD/candumper.sh:/candumper.sh
-        working_dir: /recordings
-        entrypoint: ""
-        command: "/candumper.sh can2"
+#    record-can2:
+#        container_name: record-can
+#        image: candump:latest
+#        restart: always
+#        network_mode: "host"
+#        privileged: true
+#        volumes:
+#        - $HOME/recordings:/recordings
+#        - $PWD/candumper.sh:/candumper.sh
+#        working_dir: /recordings
+#        entrypoint: ""
+#        command: "/candumper.sh can2"
 
 # Raw packet dump for OxTS
-    tcpdump-oxts:
-        container_name: tcpdump-oxts
-        image: tcpdump:latest
-        cpuset: "0"
-        restart: always
-        network_mode: "host"
-        volumes:
-        - $HOME/recordings:/recordings
-        working_dir: /recordings
-        cap_add:
-        - SYS_NICE
-        entrypoint: ""
-        command: sh -c "nice -n -10 tcpdump -i enp2s0 udp port 3000 -w `date +%Y-%m-%d_%H%M%S-oxts.pcap`"
-        runtime: runc
+#    tcpdump-oxts:
+#        container_name: tcpdump-oxts
+#        image: tcpdump:latest
+#        cpuset: "0"
+#        restart: always
+#        network_mode: "host"
+#        volumes:
+#        - $HOME/recordings:/recordings
+#        working_dir: /recordings
+#        cap_add:
+#        - SYS_NICE
+#        entrypoint: ""
+#        command: sh -c "nice -n -10 tcpdump -i enp2s0 udp port 3000 -w `date +%Y-%m-%d_%H%M%S-oxts.pcap`"
+#        runtime: runc
 
 
     ###########################################################################
@@ -115,7 +115,7 @@ services:
         restart: always
         network_mode: "host"
         privileged: true
-        command: "--can=can2 --cid=101 --id=2"        
+        command: "--can=can3 --cid=101 --id=2"        
      
     ###########################################################################
     # Axis camera including recording functionality with remote start/stop.
@@ -160,8 +160,8 @@ services:
         restart: always
         network_mode: "host"
         privileged: true
-        command: "--can=can0 --cid=101 --id=1"
-#        command: "--can=can0 --enablethrottle --enablebrake --enablesteering --cid=101 --id=1"
+#        command: "--can=can0 --cid=101 --id=1"
+        command: "--can=can0 --enablesteering --enablethrottle --enablebrake --cid=101 --id=1"
 
     ############################################################################
     # Web-application for viewing vehicle data.
